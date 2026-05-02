@@ -30,14 +30,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
+// Start server immediately, MongoDB connection in background
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Connect to MongoDB
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
-    process.exit(1);
+    // Don't exit - allow server to continue running
+    // This helps with health checks even if DB is temporarily unavailable
   });
