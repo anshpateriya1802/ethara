@@ -5,7 +5,7 @@
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "node backend/index.js",
+    "startCommand": "npm start",
     "restartPolicyMaxRetries": 5,
     "healthchecks": {
       "readiness": {
