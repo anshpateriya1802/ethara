@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+// Normalize API base so it always targets the backend's /api prefix.
+// - If VITE_API_URL is set to the backend root (e.g. https://api.example.com),
+//   ensure we call https://api.example.com/api
+// - If VITE_API_URL is unset, default to the relative '/api' path.
+const rawBase = import.meta.env.VITE_API_URL || '';
+let API_URL;
+if (!rawBase) {
+  API_URL = '/api';
+} else {
+  // remove trailing slash
+  const trimmed = rawBase.replace(/\/+$/, '');
+  API_URL = trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
 
 const api = axios.create({
   baseURL: API_URL,
