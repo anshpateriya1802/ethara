@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -35,9 +35,9 @@ export const projectService = {
 };
 
 export const taskService = {
-  getAll: (projectId) => api.get(`/project/${projectId}/tasks`),
+  getAll: (projectId) => api.get(`/projects/${projectId}/tasks`),
   getById: (id) => api.get(`/tasks/${id}`),
-  create: (projectId, data) => api.post(`/project/${projectId}/tasks`, data),
+  create: (projectId, data) => api.post(`/projects/${projectId}/tasks`, data),
   update: (id, data) => api.put(`/tasks/${id}`, data),
   delete: (id) => api.delete(`/tasks/${id}`)
 };
